@@ -27,9 +27,9 @@ I am a 17-year-old developer with a keen interest in programming, mathematical m
 
 I am deeply interested in:
 
-- **Programming Skills**: Have worked in C, Python, and C++. Developed various applications including games, utilities, and web applications.
 - **Mathematical Modeling & Simulations**: Exploring complex systems and emergent behaviors through simulations.
 - **Writing & Art**: Experienced scriptwriter and digital artist, skilled in graphic design using Medibang Paint.
+- **Programming Languages/Tools**: ![My Skills](https://skillicons.dev/icons?i=arduino,c,python,flask,latex,godot)
 
 I am always ready to dive into new challenges and adventures, pushing the boundaries of what's possible.
 
