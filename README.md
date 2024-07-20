@@ -17,7 +17,8 @@ I am deeply interested in:
 
 - **Mathematical Modeling & Simulations**: Exploring complex systems and emergent behaviors through simulations.
 - **Writing & Art**: Experienced scriptwriter and digital artist, skilled in graphic design using Medibang Paint.
-- **Programming Languages/Tools**: ![My Skills](https://skillicons.dev/icons?i=arduino,c,python,flask,latex,godot)
+- **Programming Languages/Tools**:<br>
+  ![My Skills](https://skillicons.dev/icons?i=arduino,c,python,flask,latex,godot)
 
 ---
 
