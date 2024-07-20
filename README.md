@@ -11,18 +11,6 @@ I am a 17-year-old developer with a keen interest in programming, mathematical m
 
 ---
 
-### ⚡ Stats
-
-[![datavorous's GitHub stats](https://github-readme-stats.vercel.app/api?username=datavorous&show_icons=true&theme=dark)](https://github.com/datavorous)
-
----
-
-### 📫 Contact me
-
-- [Email]()
-
----
-
 ### About Me
 
 I am deeply interested in:
@@ -31,8 +19,20 @@ I am deeply interested in:
 - **Writing & Art**: Experienced scriptwriter and digital artist, skilled in graphic design using Medibang Paint.
 - **Programming Languages/Tools**: ![My Skills](https://skillicons.dev/icons?i=arduino,c,python,flask,latex,godot)
 
-I am always ready to dive into new challenges and adventures, pushing the boundaries of what's possible.
+---
+
+## Stats
+
+[![datavorous's GitHub stats](https://github-readme-stats.vercel.app/api?username=datavorous&show_icons=true&theme=dark)](https://github.com/datavorous)
 
 ---
+
+### 📫 Contact me
+
+- [Email](river.shallow631@passinbox.com)
+
+---
+
+I am always ready to dive into new challenges and adventures, pushing the boundaries of what's possible.
 
 Thank you for visiting my profile! Feel free to explore my projects and reach out if you have any questions or collaboration ideas.
