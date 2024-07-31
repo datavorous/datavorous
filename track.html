@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark-theme {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .dark-theme th {
+            background-color: #333;
+            color: #fff;
+        }
+        input, button {
+            margin: 5px 0;
+            padding: 5px;
+        }
+        #notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            display: none;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chapter Tracker</h1>
+    <div>
+        <input type="text" id="chapterName" placeholder="Chapter Name">
+        <input type="date" id="studyDate">
+        <button onclick="addChapter()">Add Chapter</button>
+    </div>
+    <table id="chapterTable">
+        <tr>
+            <th>Chapter</th>
+            <th>Last Studied</th>
+            <th>Days Since</th>
+            <th>Revisions</th>
+            <th>Action</th>
+        </tr>
+    </table>
+    <div id="notification"></div>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark Theme</button>
+
+    <script>
+        function addChapter() {
+            const chapterName = document.getElementById('chapterName').value;
+            const studyDate = document.getElementById('studyDate').value;
+            if (chapterName && studyDate) {
+                let chapters = JSON.parse(localStorage.getItem('chapters')) || {};
+                chapters[chapterName] = {
+                    lastStudied: studyDate,
+                    revisions: 0
+                };
+                localStorage.setItem('chapters', JSON.stringify(chapters));
+                updateTable();
+                document.getElementById('chapterName').value = '';
+                document.getElementById('studyDate').value = '';
+                showNotification('Chapter added successfully!');
+            }
+        }
+
+        function updateTable() {
+            const table = document.getElementById('chapterTable');
+            const chapters = JSON.parse(localStorage.getItem('chapters')) || {};
+            
+            // Clear existing rows
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+
+            for (let chapter in chapters) {
+                const row = table.insertRow(-1);
+                const lastStudied = new Date(chapters[chapter].lastStudied);
+                const daysSince = Math.floor((new Date() - lastStudied) / (1000 * 60 * 60 * 24));
+                const urgencyColor = getUrgencyColor(daysSince);
+                
+                row.insertCell(0).textContent = chapter;
+                row.insertCell(1).textContent = lastStudied.toLocaleDateString();
+                row.insertCell(2).textContent = daysSince;
+                row.insertCell(3).textContent = chapters[chapter].revisions;
+                
+                const actionCell = row.insertCell(4);
+                const reviseButton = document.createElement('button');
+                reviseButton.textContent = 'Revise';
+                reviseButton.onclick = () => reviseChapter(chapter);
+                actionCell.appendChild(reviseButton);
+
+                row.style.backgroundColor = urgencyColor;
+            }
+        }
+
+        function reviseChapter(chapter) {
+            let chapters = JSON.parse(localStorage.getItem('chapters')) || {};
+            chapters[chapter].lastStudied = new Date().toISOString().split('T')[0];
+            chapters[chapter].revisions++;
+            localStorage.setItem('chapters', JSON.stringify(chapters));
+            updateTable();
+            showNotification('Chapter revised successfully!');
+        }
+
+        function getUrgencyColor(days) {
+            const urgencyScale = [
+                '#99FF00', // Green (0 days)
+                '#CCFF00', // 1 day
+                '#FFFF00', // 2 days
+                '#FFCC00', // 3 days
+                '#FF9900', // 4 days
+                '#FF6600', // 5 days
+                '#FF3300', // 6 days
+                '#FF0000'  // Red (7+ days)
+            ];
+            return urgencyScale[Math.min(days, 7)];
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+
+        // Initial table update
+        updateTable();
+
+        // Check for chapters that need revision
+        function checkRevisionNeeded() {
+            const chapters = JSON.parse(localStorage.getItem('chapters')) || {};
+            const today = new Date();
+            for (let chapter in chapters) {
+                const lastStudied = new Date(chapters[chapter].lastStudied);
+                const daysSince = Math.floor((today - lastStudied) / (1000 * 60 * 60 * 24));
+                if (daysSince >= 7) {
+                    showNotification(`Time to revise ${chapter}!`);
+                    break;  // Show only one notification at a time
+                }
+            }
+        }
+
+        // Check for revision needed every hour
+        setInterval(checkRevisionNeeded, 3600000);
+        // Also check on page load
+        checkRevisionNeeded();
+    </script>
+</body>
+</html>
