@@ -3,238 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter Tracker</title>
+    <title>r/JEENEEtards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Base styles */
-body {
-    font-family: 'Georgia', serif;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s, color 0.3s;
-}
+        :root {
+            --color-green: rgba(0, 255, 0, 0.2);
+            --color-light-green: rgba(144, 238, 144, 0.2);
+            --color-yellow: rgba(255, 255, 0, 0.2);
+            --color-orange: rgba(255, 165, 0, 0.2);
+            --color-red: rgba(251, 93, 93, 0.08);
+            --text-color: #000000;
+            --background-color: #ffffff;
+        }
 
-body.dark-theme {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
-}
+        body {
+            font-family: 'Open Sans', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            font-size: 18px;
+        }
 
-/* Typography */
-h1 {
-    font-size: 2.5rem;
-    text-align: center;
-    border-bottom: 2px solid #333;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
+        h1 {
+            font-size: 2.8rem;
+            text-align: center;
+            border-bottom: 2px solid var(--text-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
 
-/* Table styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 0.9rem;
-}
+        .table-container {
+            overflow-x: auto;
+        }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            background-color: var(--background-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
 
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
+        th, td {
+            border: 1px solid var(--text-color);
+            padding: 12px;
+            text-align: left;
+        }
 
-.dark-theme th {
-    background-color: #333;
-    color: #fff;
-}
+        th {
+            background-color: var(--color-light-green);
+            color: var(--text-color);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
 
-/* Form elements */
-input, button {
-    margin: 5px 0;
-    padding: 8px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
+        input, button, select {
+            margin: 5px 0;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 1px solid var(--text-color);
+            border-radius: 4px;
+        }
 
-button {
-    background-color: #4a4a4a;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+        button {
+            background-color: var(--color-green);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-button:hover {
-    background-color: #333;
-}
+        button:hover {
+            background-color: var(--color-light-green);
+        }
 
-/* Notification */
-#notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    display: none;
-    font-size: 0.9rem;
-}
+        #notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: var(--color-green);
+            color: var(--text-color);
+            border-radius: 5px;
+            display: none;
+            font-size: 1.1rem;
+        }
 
-/* Theme toggle */
-.theme-toggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
 
-/* Responsive design */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
+            h1 {
+                font-size: 2.2rem;
+            }
 
-    h1 {
-        font-size: 2rem;
-    }
+            table, th, td {
+                font-size: 1rem;
+            }
 
-    table, th, td {
-        font-size: 0.8rem;
-    }
+            input, button, select {
+                width: 90%;
+                margin: 5px 0;
+            }
+        }
 
-    input, button {
-        width: 100%;
-        margin: 5px 0;
-    }
-}
+        #chapterForm {
+            background-color: var(--color-light-green);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
 
-/* Minimalistic newspaper-like additions */
-body {
-    column-count: 1;
-}
+        .progress-bar {
+            width: 100%;
+            background-color: var(--color-light-green);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
 
-@media (min-width: 768px) {
-    body {
-        column-count: 2;
-        column-gap: 40px;
-    }
-}
+        .progress {
+            width: 0;
+            height: 24px;
+            background-color: var(--color-green);
+            border-radius: 4px;
+            transition: width 0.5s ease-in-out;
+        }
 
-h1, table, #chapterForm {
-    column-span: all;
-}
+        #quoteSection {
+            text-align: center;
+            font-style: italic;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
 
-#chapterForm {
-    background-color: #f0f0f0;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-}
-
-.dark-theme #chapterForm {
-    background-color: #2a2a2a;
-}
+        #searchFilter {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Chapter Tracker</h1>
-    <div>
+    <h1>r/JEENEEtards</h1>
+    <div id="quoteSection"></div>
+    <div id="chapterForm">
+        <select id="subject">
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Mathematics">Mathematics</option>
+        </select>
         <input type="text" id="chapterName" placeholder="Chapter Name">
         <input type="date" id="studyDate">
+        <select id="priority">
+            <option value="1">High</option>
+            <option value="2">Medium</option>
+            <option value="3">Low</option>
+        </select>
         <button onclick="addChapter()">Add Chapter</button>
     </div>
-    <table id="chapterTable">
-        <tr>
-            <th>Chapter</th>
-            <th>Last Studied</th>
-            <th>Days Since</th>
-            <th>Revisions</th>
-            <th>Action</th>
-        </tr>
-    </table>
+    <div id="searchFilter">
+        <input type="text" id="searchInput" placeholder="Search chapters...">
+        <select id="filterSubject">
+            <option value="All">All Subjects</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Mathematics">Mathematics</option>
+        </select>
+    </div>
+    <div class="table-container">
+        <table id="chapterTable">
+            <tr>
+                <th>Subject</th>
+                <th>Chapter</th>
+                <th>Last Studied</th>
+                <th>Days Since</th>
+                <th>Revisions</th>
+                <th>Priority</th>
+                <th>Action</th>
+            </tr>
+        </table>
+    </div>
     <div id="notification"></div>
-    
 
     <script>
         function addChapter() {
+            const subject = document.getElementById('subject').value;
             const chapterName = document.getElementById('chapterName').value;
             const studyDate = document.getElementById('studyDate').value;
-            if (chapterName && studyDate) {
+            const priority = document.getElementById('priority').value;
+            if (subject && chapterName && studyDate) {
                 let chapters = JSON.parse(localStorage.getItem('chapters')) || {};
-                chapters[chapterName] = {
+                chapters[`${subject}-${chapterName}`] = {
+                    subject: subject,
                     lastStudied: studyDate,
-                    revisions: 0
+                    revisions: 0,
+                    priority: priority
                 };
                 localStorage.setItem('chapters', JSON.stringify(chapters));
                 updateTable();
                 document.getElementById('chapterName').value = '';
                 document.getElementById('studyDate').value = '';
                 showNotification('Chapter added successfully!');
+                updateProgress();
             }
         }
 
         function updateTable() {
             const table = document.getElementById('chapterTable');
             const chapters = JSON.parse(localStorage.getItem('chapters')) || {};
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterSubject = document.getElementById('filterSubject').value;
             
             // Clear existing rows
             while (table.rows.length > 1) {
                 table.deleteRow(1);
             }
 
-            for (let chapter in chapters) {
-                const row = table.insertRow(-1);
-                const lastStudied = new Date(chapters[chapter].lastStudied);
-                const daysSince = Math.floor((new Date() - lastStudied) / (1000 * 60 * 60 * 24));
-                const urgencyColor = getUrgencyColor(daysSince);
-                
-                row.insertCell(0).textContent = chapter;
-                row.insertCell(1).textContent = lastStudied.toLocaleDateString();
-                row.insertCell(2).textContent = daysSince;
-                row.insertCell(3).textContent = chapters[chapter].revisions;
-                
-                const actionCell = row.insertCell(4);
-                const reviseButton = document.createElement('button');
-                reviseButton.textContent = 'Revise';
-                reviseButton.onclick = () => reviseChapter(chapter);
-                actionCell.appendChild(reviseButton);
+            for (let key in chapters) {
+                const chapter = chapters[key];
+                if ((searchTerm === '' || key.toLowerCase().includes(searchTerm)) &&
+                    (filterSubject === 'All' || chapter.subject === filterSubject)) {
+                    const row = table.insertRow(-1);
+                    const lastStudied = new Date(chapter.lastStudied);
+                    const daysSince = Math.floor((new Date() - lastStudied) / (1000 * 60 * 60 * 24));
+                    const urgencyColor = getUrgencyColor(daysSince);
+                    
+                    row.insertCell(0).textContent = chapter.subject;
+                    row.insertCell(1).textContent = key.split('-')[1];
+                    row.insertCell(2).textContent = lastStudied.toLocaleDateString();
+                    row.insertCell(3).textContent = daysSince;
+                    row.insertCell(4).textContent = chapter.revisions;
+                    row.insertCell(5).textContent = ['High', 'Medium', 'Low'][chapter.priority - 1];
+                    
+                    const actionCell = row.insertCell(6);
+                    const reviseButton = document.createElement('button');
+                    reviseButton.textContent = 'Revise';
+                    reviseButton.onclick = () => reviseChapter(key);
+                    actionCell.appendChild(reviseButton);
 
-                row.style.backgroundColor = urgencyColor;
+                    row.style.backgroundColor = urgencyColor;
+                }
             }
         }
 
-        function reviseChapter(chapter) {
+        function reviseChapter(chapterKey) {
             let chapters = JSON.parse(localStorage.getItem('chapters')) || {};
-            chapters[chapter].lastStudied = new Date().toISOString().split('T')[0];
-            chapters[chapter].revisions++;
+            chapters[chapterKey].lastStudied = new Date().toISOString().split('T')[0];
+            chapters[chapterKey].revisions++;
             localStorage.setItem('chapters', JSON.stringify(chapters));
             updateTable();
             showNotification('Chapter revised successfully!');
+            updateProgress();
         }
 
         function getUrgencyColor(days) {
+            // Red to green color scale
             const urgencyScale = [
-                '#99FF00', // Green (0 days)
-                '#CCFF00', // 1 day
-                '#FFFF00', // 2 days
-                '#FFCC00', // 3 days
-                '#FF9900', // 4 days
-                '#FF6600', // 5 days
-                '#FF3300', // 6 days
-                '#FF0000'  // Red (7+ days)
+                '#FFF9C4', // 0 days - very light yellow
+                '#FFEB3B', // 1 day - yellow
+                '#FFC107', // 2 days - amber
+                '#FF9800', // 3 days - orange
+                '#FF5722', // 4 days - deep orange
+                '#F44336', // 5 days - red
+                '#E53935', // 6 days - slightly darker red
+                '#C62828'  // 7+ days - dark red
             ];
             return urgencyScale[Math.min(days, 7)];
         }
@@ -248,22 +288,45 @@ h1, table, #chapterForm {
             }, 3000);
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
+        function updateProgress() {
+            const chapters = JSON.parse(localStorage.getItem('chapters')) || {};
+            const totalChapters = Object.keys(chapters).length;
+            const revisedChapters = Object.values(chapters).filter(chapter => chapter.revisions > 0).length;
+            const progressPercentage = (revisedChapters / totalChapters) * 100 || 0;
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
         }
 
-        // Initial table update
+        function displayMotivationalQuote() {
+            const quotes = [
+                "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+                "The only way to do great work is to love what you do.",
+                "Believe you can and you're halfway there.",
+                "Your time is limited, don't waste it living someone else's life.",
+                "The future belongs to those who believe in the beauty of their dreams."
+            ];
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quoteSection').textContent = randomQuote;
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', updateTable);
+        document.getElementById('filterSubject').addEventListener('change', updateTable);
+
+        // Initial setup
         updateTable();
+        updateProgress();
+        displayMotivationalQuote();
+        setInterval(displayMotivationalQuote, 3600000); // Change quote every hour
 
         // Check for chapters that need revision
         function checkRevisionNeeded() {
             const chapters = JSON.parse(localStorage.getItem('chapters')) || {};
             const today = new Date();
-            for (let chapter in chapters) {
-                const lastStudied = new Date(chapters[chapter].lastStudied);
+            for (let key in chapters) {
+                const lastStudied = new Date(chapters[key].lastStudied);
                 const daysSince = Math.floor((today - lastStudied) / (1000 * 60 * 60 * 24));
                 if (daysSince >= 7) {
-                    showNotification(`Time to revise ${chapter}!`);
+                    showNotification(`Time to revise ${key.split('-')[1]}!`);
                     break;  // Show only one notification at a time
                 }
             }
