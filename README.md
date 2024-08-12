@@ -6,6 +6,8 @@ I am a 17-year-old developer with a keen interest in programming, mathematical m
 
 ### 🔭 I'm currently working on
 
+- [COMANDI](https://github.com/datavorous/comandi)
+  - COMANDI is an AI powered command-line interface (CLI) tool that directly interacts with your terminal and helps you supercharge your development process. WITHOUT ANY API KEY! 
 - [GrudgePixel](https://github.com/datavorous/GrudgePixel)
   - A blazing fast, low footprint pixel art editor built with Raylib. It features a customizable canvas, multiple color palettes, and frame management for animations.
 
