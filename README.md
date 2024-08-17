@@ -32,10 +32,8 @@ I am deeply interested in:
 
 ### 📫 Contact me
 
-- [Email](river.shallow631@passinbox.com)
+- [Email](bhattacharjeesagnik910@gmail.com)
 
 ---
-
-I am always ready to dive into new challenges and adventures, pushing the boundaries of what's possible.
-
-Thank you for visiting my profile! Feel free to explore my projects and reach out if you have any questions or collaboration ideas.
+ 
+[![](https://visitcount.itsvg.in/api?id=datavorous&icon=0&color=0)](https://visitcount.itsvg.in)
