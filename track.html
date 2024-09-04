@@ -10,8 +10,6 @@
     />
     <style>
       :root {
-        /* --color-green: #4caf50; */
-        /* --0color-light-green: #81c784; */
         --color-blue: #007ea7;
         --color-light-blue: #80ced7;
         --color-yellow: #ffeb3b;
@@ -46,10 +44,12 @@
       .table-container {
         overflow-x: auto;
         margin-bottom: 30px;
+        max-width: 100%; /* Ensure the table container is responsive */
       }
 
       table {
         width: 100%;
+        min-width: 600px; /* Ensure the table doesn't break on very small screens */
         border-collapse: collapse;
         margin-top: 20px;
         font-size: 1.1rem;
@@ -117,23 +117,53 @@
       @media (max-width: 600px) {
         body {
           padding: 10px;
+          font-size: 16px; /* Adjust the font size for better readability */
         }
 
         h1 {
-          font-size: 2.2rem;
+          font-size: 2rem; /* Slightly smaller font for the heading */
         }
 
         table,
         th,
         td {
-          font-size: 1rem;
+          font-size: 0.9rem; /* Reduce the font size in the table */
+        }
+
+        th,
+        td {
+          padding: 8px; /* Reduce padding to fit better on small screens */
         }
 
         input,
         button,
         select {
-          width: 100%;
+          width: 90%;
           margin: 5px 0;
+          padding: 10px; /* Adjust padding for smaller buttons */
+        }
+
+        #chapterForm {
+          flex-direction: column; /* Stack form fields vertically */
+          gap: 15px; /* Increase the gap between form fields */
+        }
+
+        #chapterForm select,
+        #chapterForm input,
+        #chapterForm button {
+          flex: 1 1 auto;
+          min-width: 100%; /* Make the form elements take full width */
+        }
+
+        #searchFilter {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        #searchFilter input,
+        #searchFilter select {
+          /* width: 100%; */
+          margin-bottom: 10px;
         }
       }
 
@@ -171,19 +201,24 @@
         padding: 15px;
         border-radius: 4px;
         box-shadow: var(--box-shadow);
+        word-wrap: break-word; /* Ensure long quotes don't overflow */
       }
 
       #searchFilter {
         margin-bottom: 20px;
         display: flex;
-        justify-content: space-between;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
         gap: 10px;
       }
 
       #searchFilter input,
       #searchFilter select {
-        flex: 1;
-        min-width: 200px;
+        flex: 1 1 auto;
+        max-width: 300px; /* Set a max-width for better control */
+        min-width: 150px; /* Set a min-width for responsiveness */
+        margin: 5px; /* Space around elements */
       }
 
       .progress-bar {
@@ -201,6 +236,22 @@
         border-radius: 4px;
         transition: width 0.5s ease-in-out;
       }
+
+      table tr.revised-0 td {
+        background-color: var(--color-light-red);
+      }
+
+      table tr.revised-1 td {
+        background-color: var(--color-red);
+      }
+
+      table tr.revised-2 td {
+        background-color: var(--color-orange);
+      }
+
+      table tr.revised-3 td {
+        background-color: var(--color-yellow);
+      }
     </style>
   </head>
   <body>
@@ -211,6 +262,8 @@
         <option value="Physics">Physics</option>
         <option value="Chemistry">Chemistry</option>
         <option value="Mathematics">Mathematics</option>
+        <option value="Botany">Botany</option>
+        <option value="Zoology">Zoology</option>
       </select>
       <input type="text" id="chapterName" placeholder="Chapter Name" />
       <input type="date" id="studyDate" />
@@ -228,6 +281,8 @@
         <option value="Physics">Physics</option>
         <option value="Chemistry">Chemistry</option>
         <option value="Mathematics">Mathematics</option>
+        <option value="Botany">Botany</option>
+        <option value="Zoology">Zoology</option>
       </select>
     </div>
     <div class="table-container">
@@ -245,6 +300,7 @@
     </div>
     <div id="notification"></div>
 
+    <!-- <script src="temp.js"></script> -->
     <script>
       function addChapter() {
         const subject = document.getElementById("subject").value;
@@ -328,6 +384,7 @@
                   1
               ) || 0; // Add 1 to avoid showing -1 days for chapters studied today
             cell4.textContent = daysSince;
+            cell4.style.backgroundColor = getUrgencyColor(daysSince); // Apply color coding
 
             const revisionButton = document.createElement("button");
             revisionButton.textContent = chapter.revisions;
@@ -353,6 +410,7 @@
       function incrementRevisions(key) {
         let chapters = JSON.parse(localStorage.getItem("chapters")) || {};
         chapters[key].revisions++;
+        chapters[key].lastStudied = new Date().toISOString().split("T")[0]; // Update the last studied date to today
         localStorage.setItem("chapters", JSON.stringify(chapters));
         updateTable();
         updateProgress();
@@ -367,7 +425,6 @@
         updateProgress();
       }
 
-      /*
       function getUrgencyColor(days) {
         // Red to green color scale
         const urgencyScale = [
@@ -380,9 +437,8 @@
           "#E53935", // 6 days - slightly darker red
           "#C62828", // 7+ days - dark red
         ];
-        return urgencyScale[Math.min(days, 7)];
+        return urgencyScale[Math.min(days, 7) - 1];
       }
-        */
 
       function showNotification(message) {
         const notification = document.getElementById("notification");

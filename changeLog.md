@@ -15,8 +15,14 @@
 5. **Action Column Update**
    - Replaced the "Revise" button with a "Delete" button to facilitate the removal of chapters that are no longer needed or were added accidentally.
 
-6. **Urgency Color Removal**
-   - Removed the urgency color feature for a cleaner look. The underlying function is still present in the codebase for potential future use.
+6. **Urgency Color Feature**
+   - Reintroduced the urgency color feature, which color codes the "Days Since" column to indicate the urgency of revision based on the number of days elapsed. 
 
-7. **UI Update**
+7. **Additional Subjects**
+   - Added new subjects: Botany and Zoology, expanding the subject options for users.
+
+8. **Responsiveness**
+   - Enhanced mobile responsiveness by updating CSS to ensure a consistent and user-friendly layout across different screen sizes. Centered elements and adjusted sizes for better usability on mobile devices.
+
+9. **UI Update**
    - Updated the user interface for a more modern and streamlined appearance, enhancing overall readability and ease of use.
