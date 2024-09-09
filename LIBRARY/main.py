@@ -1,194 +1,195 @@
 import mysql.connector
-import os
+
 
 def connect_to_db():
     try:
-        return mysql.connector.connect(
+        connection = mysql.connector.connect(
             host="localhost",
             user="root",
             password="12345",
-            database="library_management_system"
+            database="book_store"
         )
-    except mysql.connector.Error as err:
-        print(f"Error connecting to database: {err}")
-        exit()
+        return connection
+    except Exception as e:
+        print("Database connection failed. Please check your settings.")
+        return None
 
-def main_menu():
+
+def show_menu():
     while True:
-        print("Welcome to School Library!")
-        print("1. SEARCH BOOKS")
-        print("2. CREATE USER ACCOUNT")
-        print("3. ADMIN LOGIN")
-        print("4. EXIT")
+        print("\n--- Welcome to the Book Store Management System ---")
+        print("1. Browse Available Books")
+        print("2. Sign Up")
+        print("3. Manager Access")
+        print("4. Exit")
 
-        choice = input("Please choose an option: ")
+        selection = input("Choose an option (1-4): ")
 
-        if choice == '1':
-            search_books()
-        elif choice == '2':
-            create_user_account()
-        elif choice == '3':
-            admin_login()
-        elif choice == '4':
-            exit()
+        if selection == '1':
+            browse_books()
+        elif selection == '2':
+            sign_up()
+        elif selection == '3':
+            Manager_login()
+        elif selection == '4':
+            print("Goodbye! Thanks for visiting the bookstore.")
+            break
         else:
-            print("Invalid choice, please try again.")
+            print("Invalid input. Please enter a number between 1 and 4.")
 
-def search_books():
-    db = connect_to_db()
-    cursor = db.cursor()
+
+def browse_books():
+    connection = connect_to_db()
+    if not connection:
+        return
+
+    cursor = connection.cursor()
 
     try:
-        cursor.execute("SELECT * FROM books WHERE is_available = TRUE")
+        cursor.execute("SELECT * FROM books WHERE stock > 0")
         books = cursor.fetchall()
 
         if books:
-            print("Available books:")
+            print("\n--- Available Books ---")
             for book in books:
-                print(f"ID: {book[0]}, Title: {book[1]}, Author: {book[2]}, Genre: {book[3]}")
+                print(f"ID: {book[0]}, Title: {book[1]}, Author: {book[2]}, Price: ${book[3]}, Stock: {book[4]}")
+            
+            book_id = input("Enter the ID of the book you'd like to purchase, or 'Q' to quit: ")
 
-            book_id = input("Enter the book ID you'd like to borrow: ")
-
-            cursor.execute("SELECT is_available FROM books WHERE book_id = %s", (book_id,))
-            result = cursor.fetchone()
-
-            if result and result[0]:
-                user_name = input("Enter your name: ")
-                check_user_account(db, user_name, book_id)
-            else:
-                print("The book is unavailable or invalid book ID.")
+            if book_id.lower() != 'q':
+                purchase_book(connection, book_id)
         else:
-            print("No books are available at the moment.")
-    except mysql.connector.Error as err:
-        print(f"Error fetching books: {err}")
+            print("No books are currently available.")
+    except Exception as e:
+        print("Unable to retrieve books. Please try again later.")
     finally:
-        db.close()
+        connection.close()
 
 
-def borrow_book(db, user_id, book_id):
-    try:
-        days = int(input("For how many days will you borrow the book? "))
-        purpose = input("Purpose of borrowing: ")
-        documents_provided = input("Do you have the necessary documents? (Yes/No) ").lower() == 'yes'
-
-        cursor = db.cursor()
-
-        cursor.execute("""
-            INSERT INTO borrows (user_id, book_id, borrow_date, days, purpose, documents_provided)
-            VALUES (%s, %s, CURDATE(), %s, %s, %s)
-        """, (user_id, book_id, days, purpose, documents_provided))
-
-        cursor.execute("UPDATE books SET is_available = FALSE WHERE book_id = %s", (book_id,))
-        db.commit()
-
-        print("Borrowing confirmed!")
-        print("Please return the book within the due date.")
-    except mysql.connector.Error as err:
-        print(f"Error borrowing book: {err}")
-
-def create_user_account():
-    db = connect_to_db()
-    cursor = db.cursor()
+def purchase_book(connection, book_id):
+    cursor = connection.cursor()
 
     try:
-        username = input("Enter a username: ")
-        password = input("Enter a password: ")
-
-        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
-        db.commit()
-
-        print("Account created successfully!")
-    except mysql.connector.Error as err:
-        print(f"Error creating account: {err}")
-    finally:
-        db.close()
-
-def check_user_account(db, username, book_id):
-    cursor = db.cursor()
-
-    try:
-        cursor.execute("SELECT user_id FROM users WHERE username = %s", (username,))
+        cursor.execute("SELECT stock, price FROM books WHERE book_id = %s", (book_id,))
         result = cursor.fetchone()
 
-        if result:
-            user_id = result[0]
-            borrow_book(db, user_id, book_id)
+        if result and result[0] > 0:
+            stock, price = result
+            print(f"The price of this book is ${price}.")
+            confirm = input("Would you like to proceed with the purchase? (yes/no): ").lower()
+
+            if confirm == 'yes':
+                cursor.execute("UPDATE books SET stock = stock - 1 WHERE book_id = %s", (book_id,))
+                connection.commit()
+                print("Purchase successful! Enjoy your book.")
+            else:
+                print("Purchase cancelled.")
         else:
-            print("User not found. Please create an account first.")
-            create_user_account()
-    except mysql.connector.Error as err:
-        print(f"Error checking user account: {err}")
+            print("The selected book is out of stock or invalid.")
+    except Exception as e:
+        print("There was an error processing your purchase.")
+    finally:
+        cursor.close()
 
-def admin_login():
-    ADMIN_USERNAME = "LIBRARIAN"
-    ADMIN_PASSWORD = "HELLOWORLD"
 
-    username = input("Enter admin username: ")
-    password = input("Enter admin password: ")
+def sign_up():
+    connection = connect_to_db()
+    if not connection:
+        return
 
-    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-        admin_tasks()
+    cursor = connection.cursor()
+
+    try:
+        username = input("Create a username: ")
+        password = input("Create a password: ")
+
+        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+        connection.commit()
+
+        print("Your account has been created. You can now log in and make purchases.")
+    except Exception as e:
+        print("Sign-up failed. Please try again.")
+    finally:
+        connection.close()
+
+
+def Manager_login():
+    Manager_user = "Manager"
+    Manager_pass = "Managerpass"
+
+    username = input("Manager Username: ")
+    password = input("Manager Password: ")
+
+    if username == Manager_user and password == Manager_pass:
+        Manager_tasks()
     else:
-        print("Invalid admin credentials.")
+        print("Invalid credentials. Access denied.")
 
-def admin_tasks():
+
+def Manager_tasks():
     while True:
-        print("1. ADD BOOK")
-        print("2. DELETE BOOK")
-        print("3. BACK TO MAIN MENU")
+        print("\n--- Manager Panel ---")
+        print("1. Add New Book")
+        print("2. Remove Book")
+        print("3. Log Out")
 
-        choice = input("Choose an option: ")
+        choice = input("Choose an action (1-3): ")
 
         if choice == '1':
             add_book()
         elif choice == '2':
-            delete_book()
+            remove_book()
         elif choice == '3':
+            print("Logging out from Manager panel.")
             break
         else:
-            print("Invalid choice, please try again.")
+            print("Invalid option. Please choose again.")
+
 
 def add_book():
-    db = connect_to_db()
-    cursor = db.cursor()
+    connection = connect_to_db()
+    if not connection:
+        return
+
+    cursor = connection.cursor()
 
     try:
         title = input("Enter book title: ")
-        author = input("Enter author: ")
-        genre = input("Enter genre: ")
+        author = input("Enter book author: ")
+        price = float(input("Enter book price: "))
+        stock = int(input("Enter stock quantity: "))
 
         cursor.execute("""
-            INSERT INTO books (title, author, genre)
-            VALUES (%s, %s, %s)
-        """, (title, author, genre))
+            INSERT INTO books (title, author, price, stock)
+            VALUES (%s, %s, %s, %s)
+        """, (title, author, price, stock))
 
-        db.commit()
-        print("Book added successfully!")
-    except mysql.connector.Error as err:
-        print(f"Error adding book: {err}")
+        connection.commit()
+        print("Book successfully added to the inventory.")
+    except Exception as e:
+        print("Error adding book. Ensure all data is correct.")
     finally:
-        db.close()
+        connection.close()
 
-def delete_book():
-    book_id = input("Enter the book ID to delete: ")
 
-    db = connect_to_db()
-    cursor = db.cursor()
+def remove_book():
+    book_id = input("Enter the ID of the book you wish to remove: ")
+
+    connection = connect_to_db()
+    if not connection:
+        return
+
+    cursor = connection.cursor()
 
     try:
-        cursor.execute("DELETE FROM borrows WHERE book_id = %s", (book_id,))
-        db.commit()
-
         cursor.execute("DELETE FROM books WHERE book_id = %s", (book_id,))
-        db.commit()
-
-        print("Book deleted successfully!")
-    except mysql.connector.Error as err:
-        print(f"Error deleting book: {err}")
+        connection.commit()
+        print("Book removed from the inventory.")
     except Exception as e:
-        print(f"Unexpected error: {e}")
+        print("Error removing book. Please try again.")
     finally:
-        db.close()
+        connection.close()
+
 
 if __name__ == "__main__":
-    main_menu()
+    show_menu()
