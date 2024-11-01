@@ -17,7 +17,7 @@
 - Email: [bhattacharjeesagnik910@gmail.com](mailto:bhattacharjeesagnik910@gmail.com)
 
 ## GitHub Stats
-![Profile Views](https://visitcount.itsvg.in/api?id=datavorous&icon=0&color=0)
+![Profile Views](https://visitcount.itsvg.in/api?id=datavorous&icon=0&color=0) <br>
 [![GitHub Stats](https://github-readme-stats.vercel.app/api?username=datavorous&show_icons=true&theme=transparent&rank_icon=percentile)](https://github.com/datavorous)
 
 </div>
