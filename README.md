@@ -1,15 +1,11 @@
 <samp>
-sagnik b.
+sagnik bhattacharjee
 <br>
-<a href="https://x.com/datavorous314">x</a> • <a href="mailto: datavorous.work@gmail.com">email</a>
+undergrad student
+<br>
+<a href="https://x.com/datavorous314">x</a> • <a href="mailto:datavorous.work@gmail.com">email</a>
 <br><br>
-<pre>
-   _  _
-  | || | _
- -| || || |
-  | || || |-
-   \_  || |    it's dry
-     |  _/
-    -| | \
-     |_|-      and empty.
+building systems from first principles.  
+
+focused on graphics, simulation, and low-level tooling.
 </samp>
