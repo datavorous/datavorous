@@ -7,5 +7,6 @@ i build small systems to understand how software works at a low level: memory, r
 
 my current project:
 1. [spheni](https://github.com/datavorous/spheni): a vector search library for python written in C++
+2. [frogemm](https://github.com/datavorous/frogemm): a small GEMM library for fast matrix multiplications in C
 
-if interests match, check out our <a href="https://discord.com/invite/XPrAs44vdH">discord community</a>
+if interests match, check out our <a href="https://discord.com/invite/XPrAs44vdH">discord community</a>.
