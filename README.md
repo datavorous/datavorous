@@ -1,7 +1,7 @@
 ### sagnik bhattacharjee
 undergrad student
 <br>
-<a href="https://x.com/datavorous314">x</a> • <a href="mailto:datavorous.work@gmail.com">email</a>
+<a href="https://x.com/datavorous_">x</a> • <a href="mailto:datavorous.work@gmail.com">email</a>
 <br><br>
 i build small systems to understand how software works at a low level: memory, rendering, search, and performance.<br><br>
 
